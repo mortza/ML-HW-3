@@ -1,0 +1,786 @@
+{
+	"flow_name" : "p4-a",
+	"steps" : [
+		{
+			"class" : "weka.knowledgeflow.steps.Loader",
+			"properties" : {
+				"loader" : {
+					"type" : "loader",
+					"class" : "weka.core.converters.CSVLoader",
+					"filePath" : "D:/Programming/ML-HW-3/problem4/data/split/data2.csv",
+					"useRelativePath" : true,
+					"options" : "-M ? -B 100 -E \"\\\",\\'\" -F ,"
+				},
+				"name" : "CSVLoader_2"
+			},
+			"connections" : {
+				"dataSet" : [
+					"ClassAssigner_2"
+				]
+			},
+			"coordinates" : "0,80"
+		},
+		{
+			"class" : "weka.knowledgeflow.steps.TrainingSetMaker",
+			"properties" : {
+				"name" : "TrainingSetMaker_2"
+			},
+			"connections" : {
+				"trainingSet" : [
+					"J48_2"
+				]
+			},
+			"coordinates" : "160,80"
+		},
+		{
+			"class" : "weka.knowledgeflow.steps.Classifier",
+			"properties" : {
+				"classifier" : {
+					"type" : "optionHandler",
+					"class" : "weka.classifiers.trees.J48",
+					"options" : "-C 0.25 -M 2"
+				},
+				"loadClassifierFileName" : "",
+				"name" : "J48_2",
+				"resetIncrementalClassifier" : false,
+				"updateIncrementalClassifier" : true
+			},
+			"connections" : {
+				"batchClassifier" : [
+					"ClassifierPerformanceEvaluator_2"
+				]
+			},
+			"coordinates" : "240,80"
+		},
+		{
+			"class" : "weka.knowledgeflow.steps.ClassifierPerformanceEvaluator",
+			"properties" : {
+				"costMatrixString" : "",
+				"errorPlotPointSizeProportionalToMargin" : false,
+				"evaluateWithRespectToCosts" : false,
+				"evaluationMetricsToOutput" : "Correct,Incorrect",
+				"name" : "ClassifierPerformanceEvaluator_2"
+			},
+			"connections" : {
+				"text" : [
+					"TextViewer"
+				]
+			},
+			"coordinates" : "320,80"
+		},
+		{
+			"class" : "weka.knowledgeflow.steps.Loader",
+			"properties" : {
+				"loader" : {
+					"type" : "loader",
+					"class" : "weka.core.converters.CSVLoader",
+					"filePath" : "D:/Programming/ML-HW-3/problem4/data/split/data3.csv",
+					"useRelativePath" : true,
+					"options" : "-M ? -B 100 -E \"\\\",\\'\" -F ,"
+				},
+				"name" : "CSVLoader_3"
+			},
+			"connections" : {
+				"dataSet" : [
+					"ClassAssigner_3"
+				]
+			},
+			"coordinates" : "0,160"
+		},
+		{
+			"class" : "weka.knowledgeflow.steps.TrainingSetMaker",
+			"properties" : {
+				"name" : "TrainingSetMaker_3"
+			},
+			"connections" : {
+				"trainingSet" : [
+					"J48_3"
+				]
+			},
+			"coordinates" : "160,160"
+		},
+		{
+			"class" : "weka.knowledgeflow.steps.Classifier",
+			"properties" : {
+				"classifier" : {
+					"type" : "optionHandler",
+					"class" : "weka.classifiers.trees.J48",
+					"options" : "-C 0.25 -M 2"
+				},
+				"loadClassifierFileName" : "",
+				"name" : "J48_3",
+				"resetIncrementalClassifier" : false,
+				"updateIncrementalClassifier" : true
+			},
+			"connections" : {
+				"batchClassifier" : [
+					"ClassifierPerformanceEvaluator_3"
+				]
+			},
+			"coordinates" : "240,160"
+		},
+		{
+			"class" : "weka.knowledgeflow.steps.ClassifierPerformanceEvaluator",
+			"properties" : {
+				"costMatrixString" : "",
+				"errorPlotPointSizeProportionalToMargin" : false,
+				"evaluateWithRespectToCosts" : false,
+				"evaluationMetricsToOutput" : "Correct,Incorrect",
+				"name" : "ClassifierPerformanceEvaluator_3"
+			},
+			"connections" : {
+				"text" : [
+					"TextViewer"
+				]
+			},
+			"coordinates" : "320,160"
+		},
+		{
+			"class" : "weka.knowledgeflow.steps.Loader",
+			"properties" : {
+				"loader" : {
+					"type" : "loader",
+					"class" : "weka.core.converters.CSVLoader",
+					"filePath" : "D:/Programming/ML-HW-3/problem4/data/split/data4.csv",
+					"useRelativePath" : true,
+					"options" : "-M ? -B 100 -E \"\\\",\\'\" -F ,"
+				},
+				"name" : "CSVLoader_4"
+			},
+			"connections" : {
+				"dataSet" : [
+					"ClassAssigner_4"
+				]
+			},
+			"coordinates" : "0,240"
+		},
+		{
+			"class" : "weka.knowledgeflow.steps.TrainingSetMaker",
+			"properties" : {
+				"name" : "TrainingSetMaker_4"
+			},
+			"connections" : {
+				"trainingSet" : [
+					"J48_4"
+				]
+			},
+			"coordinates" : "160,240"
+		},
+		{
+			"class" : "weka.knowledgeflow.steps.Classifier",
+			"properties" : {
+				"classifier" : {
+					"type" : "optionHandler",
+					"class" : "weka.classifiers.trees.J48",
+					"options" : "-C 0.25 -M 2"
+				},
+				"loadClassifierFileName" : "",
+				"name" : "J48_4",
+				"resetIncrementalClassifier" : false,
+				"updateIncrementalClassifier" : true
+			},
+			"connections" : {
+				"batchClassifier" : [
+					"ClassifierPerformanceEvaluator_4"
+				]
+			},
+			"coordinates" : "240,240"
+		},
+		{
+			"class" : "weka.knowledgeflow.steps.ClassifierPerformanceEvaluator",
+			"properties" : {
+				"costMatrixString" : "",
+				"errorPlotPointSizeProportionalToMargin" : false,
+				"evaluateWithRespectToCosts" : false,
+				"evaluationMetricsToOutput" : "Correct,Incorrect",
+				"name" : "ClassifierPerformanceEvaluator_4"
+			},
+			"connections" : {
+				"text" : [
+					"TextViewer"
+				]
+			},
+			"coordinates" : "320,240"
+		},
+		{
+			"class" : "weka.knowledgeflow.steps.Loader",
+			"properties" : {
+				"loader" : {
+					"type" : "loader",
+					"class" : "weka.core.converters.CSVLoader",
+					"filePath" : "D:/Programming/ML-HW-3/problem4/data/split/data5.csv",
+					"useRelativePath" : true,
+					"options" : "-M ? -B 100 -E \"\\\",\\'\" -F ,"
+				},
+				"name" : "CSVLoader_5"
+			},
+			"connections" : {
+				"dataSet" : [
+					"ClassAssigner_5"
+				]
+			},
+			"coordinates" : "0,320"
+		},
+		{
+			"class" : "weka.knowledgeflow.steps.TrainingSetMaker",
+			"properties" : {
+				"name" : "TrainingSetMaker_5"
+			},
+			"connections" : {
+				"trainingSet" : [
+					"J48_5"
+				]
+			},
+			"coordinates" : "160,320"
+		},
+		{
+			"class" : "weka.knowledgeflow.steps.Classifier",
+			"properties" : {
+				"classifier" : {
+					"type" : "optionHandler",
+					"class" : "weka.classifiers.trees.J48",
+					"options" : "-C 0.25 -M 2"
+				},
+				"loadClassifierFileName" : "",
+				"name" : "J48_5",
+				"resetIncrementalClassifier" : false,
+				"updateIncrementalClassifier" : true
+			},
+			"connections" : {
+				"batchClassifier" : [
+					"ClassifierPerformanceEvaluator_5"
+				]
+			},
+			"coordinates" : "240,320"
+		},
+		{
+			"class" : "weka.knowledgeflow.steps.ClassifierPerformanceEvaluator",
+			"properties" : {
+				"costMatrixString" : "",
+				"errorPlotPointSizeProportionalToMargin" : false,
+				"evaluateWithRespectToCosts" : false,
+				"evaluationMetricsToOutput" : "Correct,Incorrect",
+				"name" : "ClassifierPerformanceEvaluator_5"
+			},
+			"connections" : {
+				"text" : [
+					"TextViewer"
+				]
+			},
+			"coordinates" : "320,320"
+		},
+		{
+			"class" : "weka.knowledgeflow.steps.Loader",
+			"properties" : {
+				"loader" : {
+					"type" : "loader",
+					"class" : "weka.core.converters.CSVLoader",
+					"filePath" : "D:/Programming/ML-HW-3/problem4/data/split/data6.csv",
+					"useRelativePath" : true,
+					"options" : "-M ? -B 100 -E \"\\\",\\'\" -F ,"
+				},
+				"name" : "CSVLoader_6"
+			},
+			"connections" : {
+				"dataSet" : [
+					"ClassAssigner_6"
+				]
+			},
+			"coordinates" : "640,0"
+		},
+		{
+			"class" : "weka.knowledgeflow.steps.TrainingSetMaker",
+			"properties" : {
+				"name" : "TrainingSetMaker_6"
+			},
+			"connections" : {
+				"trainingSet" : [
+					"J48_6"
+				]
+			},
+			"coordinates" : "800,0"
+		},
+		{
+			"class" : "weka.knowledgeflow.steps.Classifier",
+			"properties" : {
+				"classifier" : {
+					"type" : "optionHandler",
+					"class" : "weka.classifiers.trees.J48",
+					"options" : "-C 0.25 -M 2"
+				},
+				"loadClassifierFileName" : "",
+				"name" : "J48_6",
+				"resetIncrementalClassifier" : false,
+				"updateIncrementalClassifier" : true
+			},
+			"connections" : {
+				"batchClassifier" : [
+					"ClassifierPerformanceEvaluator_6"
+				]
+			},
+			"coordinates" : "880,0"
+		},
+		{
+			"class" : "weka.knowledgeflow.steps.ClassifierPerformanceEvaluator",
+			"properties" : {
+				"costMatrixString" : "",
+				"errorPlotPointSizeProportionalToMargin" : false,
+				"evaluateWithRespectToCosts" : false,
+				"evaluationMetricsToOutput" : "Correct,Incorrect",
+				"name" : "ClassifierPerformanceEvaluator_6"
+			},
+			"connections" : {
+				"text" : [
+					"TextViewer"
+				]
+			},
+			"coordinates" : "960,0"
+		},
+		{
+			"class" : "weka.knowledgeflow.steps.Loader",
+			"properties" : {
+				"loader" : {
+					"type" : "loader",
+					"class" : "weka.core.converters.CSVLoader",
+					"filePath" : "D:/Programming/ML-HW-3/problem4/data/split/data7.csv",
+					"useRelativePath" : true,
+					"options" : "-M ? -B 100 -E \"\\\",\\'\" -F ,"
+				},
+				"name" : "CSVLoader_7"
+			},
+			"connections" : {
+				"dataSet" : [
+					"ClassAssigner_7"
+				]
+			},
+			"coordinates" : "640,80"
+		},
+		{
+			"class" : "weka.knowledgeflow.steps.TrainingSetMaker",
+			"properties" : {
+				"name" : "TrainingSetMaker_7"
+			},
+			"connections" : {
+				"trainingSet" : [
+					"J48_7"
+				]
+			},
+			"coordinates" : "800,80"
+		},
+		{
+			"class" : "weka.knowledgeflow.steps.Classifier",
+			"properties" : {
+				"classifier" : {
+					"type" : "optionHandler",
+					"class" : "weka.classifiers.trees.J48",
+					"options" : "-C 0.25 -M 2"
+				},
+				"loadClassifierFileName" : "",
+				"name" : "J48_7",
+				"resetIncrementalClassifier" : false,
+				"updateIncrementalClassifier" : true
+			},
+			"connections" : {
+				"batchClassifier" : [
+					"ClassifierPerformanceEvaluator_7"
+				]
+			},
+			"coordinates" : "880,80"
+		},
+		{
+			"class" : "weka.knowledgeflow.steps.ClassifierPerformanceEvaluator",
+			"properties" : {
+				"costMatrixString" : "",
+				"errorPlotPointSizeProportionalToMargin" : false,
+				"evaluateWithRespectToCosts" : false,
+				"evaluationMetricsToOutput" : "Correct,Incorrect",
+				"name" : "ClassifierPerformanceEvaluator_7"
+			},
+			"connections" : {
+				"text" : [
+					"TextViewer"
+				]
+			},
+			"coordinates" : "960,80"
+		},
+		{
+			"class" : "weka.knowledgeflow.steps.Loader",
+			"properties" : {
+				"loader" : {
+					"type" : "loader",
+					"class" : "weka.core.converters.CSVLoader",
+					"filePath" : "D:/Programming/ML-HW-3/problem4/data/split/data8.csv",
+					"useRelativePath" : true,
+					"options" : "-M ? -B 100 -E \"\\\",\\'\" -F ,"
+				},
+				"name" : "CSVLoader_8"
+			},
+			"connections" : {
+				"dataSet" : [
+					"ClassAssigner_8"
+				]
+			},
+			"coordinates" : "640,160"
+		},
+		{
+			"class" : "weka.knowledgeflow.steps.TrainingSetMaker",
+			"properties" : {
+				"name" : "TrainingSetMaker_8"
+			},
+			"connections" : {
+				"trainingSet" : [
+					"J48_8"
+				]
+			},
+			"coordinates" : "800,160"
+		},
+		{
+			"class" : "weka.knowledgeflow.steps.Classifier",
+			"properties" : {
+				"classifier" : {
+					"type" : "optionHandler",
+					"class" : "weka.classifiers.trees.J48",
+					"options" : "-C 0.25 -M 2"
+				},
+				"loadClassifierFileName" : "",
+				"name" : "J48_8",
+				"resetIncrementalClassifier" : false,
+				"updateIncrementalClassifier" : true
+			},
+			"connections" : {
+				"batchClassifier" : [
+					"ClassifierPerformanceEvaluator_8"
+				]
+			},
+			"coordinates" : "880,160"
+		},
+		{
+			"class" : "weka.knowledgeflow.steps.ClassifierPerformanceEvaluator",
+			"properties" : {
+				"costMatrixString" : "",
+				"errorPlotPointSizeProportionalToMargin" : false,
+				"evaluateWithRespectToCosts" : false,
+				"evaluationMetricsToOutput" : "Correct,Incorrect",
+				"name" : "ClassifierPerformanceEvaluator_8"
+			},
+			"connections" : {
+				"text" : [
+					"TextViewer"
+				]
+			},
+			"coordinates" : "960,160"
+		},
+		{
+			"class" : "weka.knowledgeflow.steps.Loader",
+			"properties" : {
+				"loader" : {
+					"type" : "loader",
+					"class" : "weka.core.converters.CSVLoader",
+					"filePath" : "D:/Programming/ML-HW-3/problem4/data/split/data9.csv",
+					"useRelativePath" : true,
+					"options" : "-M ? -B 100 -E \"\\\",\\'\" -F ,"
+				},
+				"name" : "CSVLoader_9"
+			},
+			"connections" : {
+				"dataSet" : [
+					"ClassAssigner_9"
+				]
+			},
+			"coordinates" : "640,240"
+		},
+		{
+			"class" : "weka.knowledgeflow.steps.TrainingSetMaker",
+			"properties" : {
+				"name" : "TrainingSetMaker_9"
+			},
+			"connections" : {
+				"trainingSet" : [
+					"J48_9"
+				]
+			},
+			"coordinates" : "800,240"
+		},
+		{
+			"class" : "weka.knowledgeflow.steps.Classifier",
+			"properties" : {
+				"classifier" : {
+					"type" : "optionHandler",
+					"class" : "weka.classifiers.trees.J48",
+					"options" : "-C 0.25 -M 2"
+				},
+				"loadClassifierFileName" : "",
+				"name" : "J48_9",
+				"resetIncrementalClassifier" : false,
+				"updateIncrementalClassifier" : true
+			},
+			"connections" : {
+				"batchClassifier" : [
+					"ClassifierPerformanceEvaluator_9"
+				]
+			},
+			"coordinates" : "880,240"
+		},
+		{
+			"class" : "weka.knowledgeflow.steps.ClassifierPerformanceEvaluator",
+			"properties" : {
+				"costMatrixString" : "",
+				"errorPlotPointSizeProportionalToMargin" : false,
+				"evaluateWithRespectToCosts" : false,
+				"evaluationMetricsToOutput" : "Correct,Incorrect",
+				"name" : "ClassifierPerformanceEvaluator_9"
+			},
+			"connections" : {
+				"text" : [
+					"TextViewer"
+				]
+			},
+			"coordinates" : "960,240"
+		},
+		{
+			"class" : "weka.knowledgeflow.steps.Loader",
+			"properties" : {
+				"loader" : {
+					"type" : "loader",
+					"class" : "weka.core.converters.CSVLoader",
+					"filePath" : "D:/Programming/ML-HW-3/problem4/data/split/data1.csv",
+					"useRelativePath" : true,
+					"options" : "-M ? -B 100 -E \"\\\",\\'\" -F ,"
+				},
+				"name" : "CSVLoader_1"
+			},
+			"connections" : {
+				"dataSet" : [
+					"ClassAssigner_1"
+				]
+			},
+			"coordinates" : "0,0"
+		},
+		{
+			"class" : "weka.knowledgeflow.steps.TrainingSetMaker",
+			"properties" : {
+				"name" : "TrainingSetMaker_1"
+			},
+			"connections" : {
+				"trainingSet" : [
+					"J48_1"
+				]
+			},
+			"coordinates" : "160,0"
+		},
+		{
+			"class" : "weka.knowledgeflow.steps.Classifier",
+			"properties" : {
+				"classifier" : {
+					"type" : "optionHandler",
+					"class" : "weka.classifiers.trees.J48",
+					"options" : "-C 0.25 -M 2"
+				},
+				"loadClassifierFileName" : "",
+				"name" : "J48_1",
+				"resetIncrementalClassifier" : false,
+				"updateIncrementalClassifier" : true
+			},
+			"connections" : {
+				"batchClassifier" : [
+					"ClassifierPerformanceEvaluator_1"
+				]
+			},
+			"coordinates" : "240,0"
+		},
+		{
+			"class" : "weka.knowledgeflow.steps.ClassifierPerformanceEvaluator",
+			"properties" : {
+				"costMatrixString" : "",
+				"errorPlotPointSizeProportionalToMargin" : false,
+				"evaluateWithRespectToCosts" : false,
+				"evaluationMetricsToOutput" : "Correct,Incorrect",
+				"name" : "ClassifierPerformanceEvaluator_1"
+			},
+			"connections" : {
+				"text" : [
+					"TextViewer"
+				]
+			},
+			"coordinates" : "320,0"
+		},
+		{
+			"class" : "weka.knowledgeflow.steps.ClassAssigner",
+			"properties" : {
+				"classColumn" : "income",
+				"name" : "ClassAssigner_1"
+			},
+			"connections" : {
+				"dataSet" : [
+					"TrainingSetMaker_1"
+				]
+			},
+			"coordinates" : "80,0"
+		},
+		{
+			"class" : "weka.knowledgeflow.steps.ClassAssigner",
+			"properties" : {
+				"classColumn" : "income",
+				"name" : "ClassAssigner_2"
+			},
+			"connections" : {
+				"dataSet" : [
+					"TrainingSetMaker_2"
+				]
+			},
+			"coordinates" : "80,80"
+		},
+		{
+			"class" : "weka.knowledgeflow.steps.ClassAssigner",
+			"properties" : {
+				"classColumn" : "income",
+				"name" : "ClassAssigner_3"
+			},
+			"connections" : {
+				"dataSet" : [
+					"TrainingSetMaker_3"
+				]
+			},
+			"coordinates" : "80,160"
+		},
+		{
+			"class" : "weka.knowledgeflow.steps.ClassAssigner",
+			"properties" : {
+				"classColumn" : "income",
+				"name" : "ClassAssigner_4"
+			},
+			"connections" : {
+				"dataSet" : [
+					"TrainingSetMaker_4"
+				]
+			},
+			"coordinates" : "80,240"
+		},
+		{
+			"class" : "weka.knowledgeflow.steps.ClassAssigner",
+			"properties" : {
+				"classColumn" : "income",
+				"name" : "ClassAssigner_5"
+			},
+			"connections" : {
+				"dataSet" : [
+					"TrainingSetMaker_5"
+				]
+			},
+			"coordinates" : "80,320"
+		},
+		{
+			"class" : "weka.knowledgeflow.steps.ClassAssigner",
+			"properties" : {
+				"classColumn" : "income",
+				"name" : "ClassAssigner_6"
+			},
+			"connections" : {
+				"dataSet" : [
+					"TrainingSetMaker_6"
+				]
+			},
+			"coordinates" : "720,0"
+		},
+		{
+			"class" : "weka.knowledgeflow.steps.ClassAssigner",
+			"properties" : {
+				"classColumn" : "income",
+				"name" : "ClassAssigner_7"
+			},
+			"connections" : {
+				"dataSet" : [
+					"TrainingSetMaker_7"
+				]
+			},
+			"coordinates" : "720,80"
+		},
+		{
+			"class" : "weka.knowledgeflow.steps.ClassAssigner",
+			"properties" : {
+				"classColumn" : "income",
+				"name" : "ClassAssigner_8"
+			},
+			"connections" : {
+				"dataSet" : [
+					"TrainingSetMaker_8"
+				]
+			},
+			"coordinates" : "720,160"
+		},
+		{
+			"class" : "weka.knowledgeflow.steps.ClassAssigner",
+			"properties" : {
+				"classColumn" : "income",
+				"name" : "ClassAssigner_9"
+			},
+			"connections" : {
+				"dataSet" : [
+					"TrainingSetMaker_9"
+				]
+			},
+			"coordinates" : "720,240"
+		},
+		{
+			"class" : "weka.knowledgeflow.steps.Loader",
+			"properties" : {
+				"loader" : {
+					"type" : "loader",
+					"class" : "weka.core.converters.CSVLoader",
+					"filePath" : "D:/Programming/ML-HW-3/problem4/data/split/data0.csv",
+					"useRelativePath" : true,
+					"options" : "-M ? -B 100 -E \"\\\",\\'\" -F ,"
+				},
+				"name" : "TEST_LOADER"
+			},
+			"connections" : {
+				"dataSet" : [
+					"test_ClassAssigner"
+				]
+			},
+			"coordinates" : "480,0"
+		},
+		{
+			"class" : "weka.knowledgeflow.steps.TestSetMaker",
+			"properties" : {
+				"name" : "TestSetMaker"
+			},
+			"connections" : {
+				"testSet" : [
+					"J48_1",
+					"J48_2",
+					"J48_3",
+					"J48_4",
+					"J48_5",
+					"J48_6",
+					"J48_7",
+					"J48_8",
+					"J48_9"
+				]
+			},
+			"coordinates" : "480,160"
+		},
+		{
+			"class" : "weka.knowledgeflow.steps.ClassAssigner",
+			"properties" : {
+				"classColumn" : "/last",
+				"name" : "test_ClassAssigner"
+			},
+			"connections" : {
+				"dataSet" : [
+					"TestSetMaker"
+				]
+			},
+			"coordinates" : "480,80"
+		},
+		{
+			"class" : "weka.knowledgeflow.steps.TextViewer",
+			"properties" : {
+				"name" : "TextViewer"
+			},
+			"connections" : {
+			},
+			"coordinates" : "680,440"
+		}
+	]
+}
