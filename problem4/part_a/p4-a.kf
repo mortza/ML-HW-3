@@ -779,8 +779,23 @@
 				"name" : "TextViewer"
 			},
 			"connections" : {
+				"text" : [
+					"TextSaver"
+				]
 			},
 			"coordinates" : "680,440"
+		},
+		{
+			"class" : "weka.knowledgeflow.steps.TextSaver",
+			"properties" : {
+				"append" : true,
+				"file" : "D:/Programming/ML-HW-3/problem4/part_a/reuslt.txt",
+				"name" : "TextSaver",
+				"writeTitleString" : false
+			},
+			"connections" : {
+			},
+			"coordinates" : "553,520"
 		}
 	]
 }
