@@ -1,0 +1,46 @@
+=== Evaluation result ===
+
+Scheme: GainRatio_J48 : J48
+Options: -C 0.25 -M 2
+Relation: part_d_test
+
+
+Correctly Classified Instances        1145               88.4853 %
+Incorrectly Classified Instances       149               11.5147 %
+Total Number of Instances             1294     
+
+=== Detailed Accuracy By Class ===
+
+                 Class
+                 <=50K
+                 >50K
+Weighted Avg.    
+
+=== Confusion Matrix ===
+
+    a    b   <-- classified as
+ 1145   31 |    a = <=50K
+  118    0 |    b = >50K
+=== Evaluation result ===
+
+Scheme: InfoGain_J48 : J48
+Options: -C 0.25 -M 2
+Relation: part_d_test
+
+
+Correctly Classified Instances         168               22.2517 %
+Incorrectly Classified Instances       587               77.7483 %
+Total Number of Instances              755     
+
+=== Detailed Accuracy By Class ===
+
+                 Class
+                 <=50K
+                 >50K
+Weighted Avg.    
+
+=== Confusion Matrix ===
+
+   a   b   <-- classified as
+ 138 566 |   a = <=50K
+  21  30 |   b = >50K
