@@ -5,125 +5,106 @@ Created on Fri Jun 16  01:49:49 2017
 
 @author: mortza
 """
+from collections import namedtuple
 import numpy as np
-from . import config
 
 
-class EM():
-    """
-    expectation maximization class for GMM
-    """
+class EM:
 
-    def __init__(self, k, convergence=1e-5, prior_prob='auto'):
-        """initialize a EM object
-
-        Parameters
-        ----------
-        k : int
-            number of clusters (centroids)
-        convergence : float, optional
-            convergence threshold
-        prior_prob : str or array-like, optional
-            represent prior probabilities of each distribution ( p(z(i)=j)'s )
-            if set to 'auto' it will assign equal probability for all
-            zi and xi's
-            if passed array must be in shape of (n_samples, k)
-        """
-        self.phi = np.zeros(k)
-        self.convergence = convergence
+    def __init__(self, k, convergence=1e-4, max_iters=1000):
         self.n_centroids = k
-        if prior_prob == 'auto':
-            self.phi = None
-        else:
-            # TODO : check for __iter__ method
-            try:
-                self.phi = np.ndarray(prior_prob)
-            except Exception as ex:
-                print(f'''{ex}, prior probabilities set to 'auto' ''')
-                self.phi = None
+        self.convergence = convergence
+        self.max_iters = max_iters
+        self.parameters = namedtuple(
+            'parameters', ['mu', 'sigma', 'w', 'log_likelihoods', 'num_iters'])
 
-    def initialize_(self, X):
-        """initialize EM parameters
+    def P(self, mu, sigma, X):
+        t1 = np.linalg.det(sigma) ** -.5 * \
+            (2 * np.pi) ** (-self.n_features / 2.)
+        t2 = np.dot(np.linalg.inv(sigma), (X - mu).T).T
+        t3 = np.exp(-.5 * np.einsum('ij, ij -> i', X - mu, t2))
+        return t1 * t3
 
-        Parameters
-        ----------
-        X : numpy.ndarray
-        """
+    def P_predict(self, mu, sigma, x):
+        t1 = np.linalg.det(sigma) ** -.5 * \
+            (2 * np.pi) ** (-self.n_features / 2.)
+        t2 = np.dot(np.linalg.inv(sigma), (x - mu).T).T
+        t3 = np.exp(-.5 * np.dot(x - mu, t2))
+        return t1 * t3
+        pass
+
+    def initialize_params(self, X):
         self.n_samples, self.n_features = X.shape
-        # initialize mu
+
+        # randomly choose the starting centroids/means
         self.mu = X[np.random.choice(
             self.n_samples, self.n_centroids, False), :]
 
-        # initialize sigmas
-        self.sigma = np.array([np.eye(self.n_features)] * self.n_centroids)
+        # initialize the covariance matrices for each Gaussian
+        self.sigma = [np.eye(self.n_features)] * self.n_centroids
 
-        if self.phi is None:
-            # initialize weights
-            self.phi = np.ones(
-                (self.n_samples, self.n_centroids)) / self.n_centroids
+        # initialize the probabilities for each Gaussian
+        self.phi = [1. / self.n_centroids] * self.n_centroids
 
-        # initialize weights matrix
+        # w matrix is initialized to all zeros
         self.w = np.zeros((self.n_samples, self.n_centroids))
 
-        # responsibility matrix is initialized to all zeros
-        self.R = np.zeros((self.n_samples, self.n_centroids))
-
-        if config.DEBUG:
-            print(f'n_samples {self.n_samples}')
-            print(f'n_features {self.n_features}')
-            print(f'mu shape {self.mu.shape}')
-            print(f'sigma {self.sigma.shape}')
-            print(f'z {self.z.shape}')
-            print(f'w {self.w.shape}')
-            print(f'R {self.R.shape}')
-
-    def P(self, mu, sigma, xi):
-        """p(X=xi|zi=j)
-
-        Parameters
-        ----------
-        mu : float
-            mean of cluster
-        sigma : array
-            array-like object with shape (self.n_features, self.n_features)
-        xi : array
-            array with shape (1, self.n_features)
-
-        No Longer Returned
-        ------------------
-        np.ndarray
-            probabilities array with shape (self.n_samples, 1)
-        """
-        t1 = (np.linalg.det(sigma)**0.5) * ((2 * np.pi)**(self.n_features / 2))
-        t1 = 1 / t1
-        t2 = np.dot(xi - mu, np.linalg.inv(sigma))
-        t2 = np.exp(-0.5 * np.dot(t2, xi - mu))
-        return t1 * t2
-
     def fit(self, X):
-        """fit EM object to model
+        self.initialize_params(X)
 
-        Parameters
-        ----------
-        X : numpy.ndarray
-            training examples with shape (n, m) where n denote number of
-            training examples and m is number of features
-        """
-        self.initialize_(X)
+        # log_likelihoods
+        log_likelihoods = []
+        means_variation = []
+        # Iterate till max_iters iterations
+        while len(log_likelihoods) < self.max_iters:
 
-        while True:
-            # E step
-            # calculate w
-            for i in range(self.n_samples):
-                for j in range(self.n_centroids):
-                    # p(X=xi|zi=j)
-                    # latex equation:
-                    # p(x^{(i)}|z^{(i)}=j;\mu, \Sigma)p(z^{(i)}=j;\phi)
-                    self.w[i, j] = self.P(self.mu[j], self.sigma[
-                                          j], X[i]) * self.phi[i, j]
-                # latex equation:
-                # \sum_{l=1}^{k}p(x^{(i)}|z^{(i)}=l;\mu,\Sigma)p(z^{(i)}=l;\phi)
-                self.w[i, j] = self.w[i, j] / np.sum(self.w[i, :])
+            # E - Step
 
-            # M step
-            # tune parameters
+            # Vectorized implementation of e-step equation to calculate the
+            # membership for each of k -Gaussian
+            for k in range(self.n_centroids):
+                self.w[:, k] = self.phi[k] * \
+                    self.P(self.mu[k], self.sigma[k], X)
+
+            # Likelihood computation
+            log_likelihood = np.sum(np.log(np.sum(self.w, axis=1)))
+
+            log_likelihoods.append(log_likelihood)
+
+            # Normalize w matrix
+            self.w = (self.w.T / np.sum(self.w, axis=1)).T
+
+            # The number of data-points belonging to each Gaussian
+            N_ks = np.sum(self.w, axis=0)
+
+            # M Step
+            # calculate the new mean and covariance for each Gaussian by
+            # utilizing the new w matrix
+            for k in range(self.n_centroids):
+
+                # means
+                self.mu[k] = 1. / N_ks[k] * \
+                    np.sum(self.w[:, k] * X.T, axis=1).T
+                means_variation.append(self.mu[k].copy())
+                x_mu = np.matrix(X - self.mu[k])
+
+                # covariances
+                self.sigma[k] = np.array(
+                    1 / N_ks[k] *
+                    np.dot(np.multiply(x_mu.T, self.w[:, k]), x_mu))
+
+                # and finally the phi
+                self.phi[k] = 1. / self.n_samples * N_ks[k]
+            # check for convergence
+            if len(log_likelihoods) < 2:
+                continue
+            if np.abs(log_likelihood - log_likelihoods[-2]) < self.convergence:
+                break
+
+        # for plotting
+        return means_variation
+
+    def predict(self, x):
+        probs = np.array([phi * self.P_predict(mu, s, x) for mu, s, phi in
+                          zip(self.mu, self.sigma, self.phi)])
+        return probs / np.sum(probs)
