@@ -12,6 +12,8 @@ from gen_data import generate_data
 from core.EM import EM
 import matplotlib.pyplot as plt
 import matplotlib
+import seaborn as sns
+
 
 matplotlib.style.use('ggplot')
 
@@ -19,7 +21,7 @@ if not os.path.exists('data.csv'):
     generate_data()
 
 data = pd.read_csv('data.csv')
-em = EM(2)
+em = EM(2, max_iters=1e4)
 means = em.fit(data[['x', 'y']].values)
 
 new_data = pd.DataFrame(columns=['x', 'y', 'target'])
@@ -29,31 +31,49 @@ for row in data.iterrows():
     new_data = new_data.append(
         {'x': x, 'y': y, 'target': np.argmax(prob) + 1}, ignore_index=True)
 
+fig1, ax1 = plt.subplots(figsize=(8, 8))
+ax1.set_aspect('equal')
+ax1 = sns.kdeplot(data[data.target == 1].x, data[
+    data.target == 1].y, shade=False, kernel='gau')
+ax1 = sns.kdeplot(data[data.target == 2].x, data[
+    data.target == 2].y, shade=False, kernel='gau')
+fig1.savefig('dist_actual.png')
 
-fig, (ax1, ax2) = plt.subplots(2, sharey=True)
+fig2, ax2 = plt.subplots(figsize=(8, 8))
+ax2.set_aspect('equal')
+ax2 = sns.kdeplot(new_data[new_data.target == 1].x, new_data[
+    new_data.target == 1].y, shade=False, shade_lowest=False,
+    kernel='gau')
+ax2 = sns.kdeplot(new_data[new_data.target == 2].x, new_data[
+    new_data.target == 2].y, shade=False, shade_lowest=False,
+    kernel='gau')
+fig2.savefig('dist_predicted.png')
 
-ax1.scatter(data[data.target == 1].x, data[data.target == 1].y)
-ax1.scatter(data[data.target == 2].x, data[data.target == 2].y)
-ax1.set_title('original data')
+plt_colors = sns.husl_palette(2)
 
-ax2.scatter(new_data[new_data.target == 1].x, new_data[
-            new_data.target == 1].y)
-ax2.scatter(new_data[new_data.target == 2].x, new_data[
-            new_data.target == 2].y)
-print(len(new_data))
-ax2.set_title('predicted data')
-plt.show()
+sns.pairplot(data, x_vars='x', y_vars='y', hue='target', kind='scatter',
+             palette={1: plt_colors[0], 2: plt_colors[1]}, size=8)
+plt.savefig('data_points_actual.png')
 
-# # plot means
-# m1 = np.ones((len(means)))
-# m2 = np.ones((len(means)))
-# xs = np.arange(len(means)) + 1
 
-# for (i, k) in enumerate(means):
-#     m1[i] = k[0]
-#     m2[i] = k[1]
+sns.pairplot(new_data, x_vars='x', y_vars='y', hue='target',
+             kind='scatter', palette={1: plt_colors[0], 2: plt_colors[1]},
+             size=8)
+plt.savefig('data_points_predicted.png')
 
-# plt.plot(xs, m1)
-# plt.plot(xs, m2)
-# print(m1)
-# plt.show()
+# plot means
+m1 = np.ones((len(means)))
+m2 = np.ones((len(means)))
+xs = np.arange(len(means)) + 1
+
+for (i, k) in enumerate(means):
+    m1[i] = k[0]
+    m2[i] = k[1]
+
+fig3, ax3 = plt.subplots(figsize=(8, 8))
+ax3 = sns.regplot(xs, m1)
+fig3.savefig('mean_1_variations.png')
+
+fig4, ax4 = plt.subplots(figsize=(8, 8))
+ax4 = sns.regplot(xs, m2)
+fig3.savefig('mean_1_variations.png')

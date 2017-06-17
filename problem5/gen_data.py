@@ -13,7 +13,7 @@ import matplotlib
 matplotlib.style.use('ggplot')
 
 
-def generate_data(t1=200, t2=200, loc1=1, loc2=5, scale1=1.5, scale2=3):
+def generate_data(t1=400, t2=400, loc1=1, loc2=5, scale1=1.5, scale2=3):
     data = pd.DataFrame(columns=['x', 'y', 'target'])
     for i in range(t1):
         data = data.append({
@@ -29,7 +29,7 @@ def generate_data(t1=200, t2=200, loc1=1, loc2=5, scale1=1.5, scale2=3):
 
     data = data.sample(frac=1).reset_index(drop=True)
     data.to_csv('data.csv', mode='w+', index=False)
-    plt.scatter([data.target == 1].x,
+    plt.scatter(data[data.target == 1].x,
                 data[data.target == 1].y)
     plt.scatter(data[data.target == 2].x,
                 data[data.target == 2].y)
