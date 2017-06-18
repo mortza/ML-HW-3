@@ -18,7 +18,7 @@
 					"ClassAssigner_1"
 				]
 			},
-			"coordinates" : "0,200"
+			"coordinates" : "0,0"
 		},
 		{
 			"class" : "weka.knowledgeflow.steps.ClassAssigner",
@@ -29,10 +29,11 @@
 			"connections" : {
 				"dataSet" : [
 					"GainRatioAttributeEval",
-					"InfoGainAttributeEval"
+					"InfoGainAttributeEval",
+					"TrainingSetMaker3"
 				]
 			},
-			"coordinates" : "160,200"
+			"coordinates" : "80,0"
 		},
 		{
 			"class" : "weka.knowledgeflow.steps.ClassifierPerformanceEvaluator",
@@ -48,7 +49,7 @@
 					"TextViewer"
 				]
 			},
-			"coordinates" : "560,40"
+			"coordinates" : "560,0"
 		},
 		{
 			"class" : "weka.knowledgeflow.steps.ClassifierPerformanceEvaluator",
@@ -64,7 +65,7 @@
 					"TextViewer"
 				]
 			},
-			"coordinates" : "560,360"
+			"coordinates" : "560,120"
 		},
 		{
 			"class" : "weka.knowledgeflow.steps.TextViewer",
@@ -76,7 +77,7 @@
 					"TextSaver"
 				]
 			},
-			"coordinates" : "640,200"
+			"coordinates" : "720,160"
 		},
 		{
 			"class" : "weka.knowledgeflow.steps.TrainingSetMaker",
@@ -88,7 +89,7 @@
 					"GainRatio_J48"
 				]
 			},
-			"coordinates" : "240,40"
+			"coordinates" : "240,0"
 		},
 		{
 			"class" : "weka.knowledgeflow.steps.TrainingSetMaker",
@@ -100,7 +101,7 @@
 					"InfoGain_J48"
 				]
 			},
-			"coordinates" : "240,360"
+			"coordinates" : "240,120"
 		},
 		{
 			"class" : "weka.knowledgeflow.steps.ClassAssigner",
@@ -113,7 +114,7 @@
 					"TestSetMaker"
 				]
 			},
-			"coordinates" : "360,200"
+			"coordinates" : "160,480"
 		},
 		{
 			"class" : "weka.knowledgeflow.steps.TestSetMaker",
@@ -123,10 +124,11 @@
 			"connections" : {
 				"testSet" : [
 					"GainRatio_J48",
-					"InfoGain_J48"
+					"InfoGain_J48",
+					"RandomTree"
 				]
 			},
-			"coordinates" : "440,200"
+			"coordinates" : "240,480"
 		},
 		{
 			"class" : "weka.knowledgeflow.steps.Loader",
@@ -145,7 +147,7 @@
 					"ClassAssigner"
 				]
 			},
-			"coordinates" : "280,200"
+			"coordinates" : "80,480"
 		},
 		{
 			"class" : "weka.knowledgeflow.steps.Filter",
@@ -162,7 +164,7 @@
 					"TrainingSetMaker"
 				]
 			},
-			"coordinates" : "160,40"
+			"coordinates" : "160,0"
 		},
 		{
 			"class" : "weka.knowledgeflow.steps.Filter",
@@ -179,7 +181,7 @@
 					"TrainingSetMaker2"
 				]
 			},
-			"coordinates" : "160,360"
+			"coordinates" : "160,120"
 		},
 		{
 			"class" : "weka.knowledgeflow.steps.Classifier",
@@ -199,7 +201,7 @@
 					"ClassifierPerformanceEvaluator_1"
 				]
 			},
-			"coordinates" : "440,40"
+			"coordinates" : "440,0"
 		},
 		{
 			"class" : "weka.knowledgeflow.steps.Classifier",
@@ -219,7 +221,7 @@
 					"ClassifierPerformanceEvaluator_2"
 				]
 			},
-			"coordinates" : "440,360"
+			"coordinates" : "440,120"
 		},
 		{
 			"class" : "weka.knowledgeflow.steps.TextSaver",
@@ -231,7 +233,55 @@
 			},
 			"connections" : {
 			},
-			"coordinates" : "760,200"
+			"coordinates" : "840,160"
+		},
+		{
+			"class" : "weka.knowledgeflow.steps.TrainingSetMaker",
+			"properties" : {
+				"name" : "TrainingSetMaker3"
+			},
+			"connections" : {
+				"trainingSet" : [
+					"RandomTree"
+				]
+			},
+			"coordinates" : "80,240"
+		},
+		{
+			"class" : "weka.knowledgeflow.steps.Classifier",
+			"properties" : {
+				"classifier" : {
+					"type" : "optionHandler",
+					"class" : "weka.classifiers.trees.RandomTree",
+					"options" : "-K 1 -M 1.0 -V 0.001 -S 1"
+				},
+				"loadClassifierFileName" : "",
+				"name" : "RandomTree",
+				"resetIncrementalClassifier" : false,
+				"updateIncrementalClassifier" : true
+			},
+			"connections" : {
+				"batchClassifier" : [
+					"ClassifierPerformanceEvaluator_3"
+				]
+			},
+			"coordinates" : "440,240"
+		},
+		{
+			"class" : "weka.knowledgeflow.steps.ClassifierPerformanceEvaluator",
+			"properties" : {
+				"costMatrixString" : "",
+				"errorPlotPointSizeProportionalToMargin" : false,
+				"evaluateWithRespectToCosts" : false,
+				"evaluationMetricsToOutput" : "Correct,Incorrect",
+				"name" : "ClassifierPerformanceEvaluator_3"
+			},
+			"connections" : {
+				"text" : [
+					"TextViewer"
+				]
+			},
+			"coordinates" : "560,240"
 		}
 	]
 }
