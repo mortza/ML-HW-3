@@ -55,6 +55,9 @@ class EM:
         # log_likelihoods
         log_likelihoods = []
         means_variation = []
+
+        for i in range(self.n_centroids):
+            means_variation.append([])
         # Iterate till max_iters iterations
         while len(log_likelihoods) < self.max_iters:
 
@@ -85,7 +88,7 @@ class EM:
                 # means
                 self.mu[k] = 1. / N_ks[k] * \
                     np.sum(self.w[:, k] * X.T, axis=1).T
-                means_variation.append(self.mu[k].copy())
+                means_variation[k].append(np.mean(self.mu[k]))
                 x_mu = np.matrix(X - self.mu[k])
 
                 # covariances
