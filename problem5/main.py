@@ -62,18 +62,18 @@ sns.pairplot(new_data, x_vars='x', y_vars='y', hue='target',
 plt.savefig('data_points_predicted.png')
 
 # plot means
-m1 = np.ones((len(means)))
-m2 = np.ones((len(means)))
-xs = np.arange(len(means)) + 1
-
-for (i, k) in enumerate(means):
-    m1[i] = k[0]
-    m2[i] = k[1]
+m1 = np.array(means[0])
+m2 = np.array(means[1])
+xs = np.arange(len(means[0]))
 
 fig3, ax3 = plt.subplots(figsize=(8, 8))
-ax3 = sns.regplot(xs, m1)
+ax3 = sns.regplot(xs, m1, fit_reg=False)
 fig3.savefig('mean_1_variations.png')
 
 fig4, ax4 = plt.subplots(figsize=(8, 8))
-ax4 = sns.regplot(xs, m2)
-fig3.savefig('mean_1_variations.png')
+ax4 = sns.regplot(xs, m2, fit_reg=False)
+fig4.savefig('mean_2_variations.png')
+
+print('iterations : {}'.format(len(xs)))
+print('class 1 estimated mean : {}'.format(m1[-1]))
+print('class 2 estimated mean : {}'.format(m2[-1]))
