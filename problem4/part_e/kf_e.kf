@@ -60,7 +60,8 @@
 			"connections" : {
 				"trainingSet" : [
 					"single_tree",
-					"combine_classifiers"
+					"Bagging",
+					"AdaBoostM1"
 				]
 			},
 			"coordinates" : "160,0"
@@ -73,7 +74,8 @@
 			"connections" : {
 				"testSet" : [
 					"single_tree",
-					"combine_classifiers"
+					"Bagging",
+					"AdaBoostM1"
 				]
 			},
 			"coordinates" : "160,120"
@@ -128,42 +130,6 @@
 			"coordinates" : "640,0"
 		},
 		{
-			"class" : "weka.knowledgeflow.steps.Classifier",
-			"properties" : {
-				"classifier" : {
-					"type" : "optionHandler",
-					"class" : "weka.classifiers.meta.Vote",
-					"options" : "-S 1 -B \"weka.classifiers.trees.RandomTree -K 0 -M 1.0 -V 0.001 -S 1\" -B \"weka.classifiers.trees.RandomForest -P 100 -I 100 -num-slots 1 -K 0 -M 1.0 -V 0.001 -S 1\" -B \"weka.classifiers.trees.J48 -C 0.25 -M 2\" -R AVG"
-				},
-				"loadClassifierFileName" : "",
-				"name" : "combine_classifiers",
-				"resetIncrementalClassifier" : true,
-				"updateIncrementalClassifier" : false
-			},
-			"connections" : {
-				"batchClassifier" : [
-					"combine_classifiers_eval"
-				]
-			},
-			"coordinates" : "440,120"
-		},
-		{
-			"class" : "weka.knowledgeflow.steps.ClassifierPerformanceEvaluator",
-			"properties" : {
-				"costMatrixString" : "",
-				"errorPlotPointSizeProportionalToMargin" : false,
-				"evaluateWithRespectToCosts" : false,
-				"evaluationMetricsToOutput" : "Correct,Incorrect",
-				"name" : "combine_classifiers_eval"
-			},
-			"connections" : {
-				"text" : [
-					"TextViewer"
-				]
-			},
-			"coordinates" : "640,120"
-		},
-		{
 			"class" : "weka.knowledgeflow.steps.TextViewer",
 			"properties" : {
 				"name" : "TextViewer"
@@ -186,6 +152,78 @@
 			"connections" : {
 			},
 			"coordinates" : "880,120"
+		},
+		{
+			"class" : "weka.knowledgeflow.steps.Classifier",
+			"properties" : {
+				"classifier" : {
+					"type" : "optionHandler",
+					"class" : "weka.classifiers.meta.Bagging",
+					"options" : "-P 100 -S 1 -num-slots 1 -I 10 -W weka.classifiers.trees.J48 -- -C 0.25 -M 2"
+				},
+				"loadClassifierFileName" : "",
+				"name" : "Bagging",
+				"resetIncrementalClassifier" : false,
+				"updateIncrementalClassifier" : true
+			},
+			"connections" : {
+				"batchClassifier" : [
+					"combine_classifiers_eval_bagging"
+				]
+			},
+			"coordinates" : "440,120"
+		},
+		{
+			"class" : "weka.knowledgeflow.steps.ClassifierPerformanceEvaluator",
+			"properties" : {
+				"costMatrixString" : "",
+				"errorPlotPointSizeProportionalToMargin" : false,
+				"evaluateWithRespectToCosts" : false,
+				"evaluationMetricsToOutput" : "Correct,Incorrect",
+				"name" : "combine_classifiers_eval_bagging"
+			},
+			"connections" : {
+				"text" : [
+					"TextViewer"
+				]
+			},
+			"coordinates" : "640,120"
+		},
+		{
+			"class" : "weka.knowledgeflow.steps.ClassifierPerformanceEvaluator",
+			"properties" : {
+				"costMatrixString" : "",
+				"errorPlotPointSizeProportionalToMargin" : false,
+				"evaluateWithRespectToCosts" : false,
+				"evaluationMetricsToOutput" : "Correct,Incorrect",
+				"name" : "combine_classifiers_eval_boosting"
+			},
+			"connections" : {
+				"text" : [
+					"TextViewer"
+				]
+			},
+			"coordinates" : "640,240"
+		},
+		{
+			"class" : "weka.knowledgeflow.steps.Classifier",
+			"properties" : {
+				"classifier" : {
+					"type" : "optionHandler",
+					"class" : "weka.classifiers.meta.AdaBoostM1",
+					"options" : "-P 100 -S 1 -I 10 -W weka.classifiers.trees.J48 -- -C 0.25 -M 2"
+				},
+				"loadClassifierFileName" : "",
+				"name" : "AdaBoostM1",
+				"resetIncrementalClassifier" : false,
+				"updateIncrementalClassifier" : true
+			},
+			"connections" : {
+				"batchClassifier" : [
+					"combine_classifiers_eval_boosting"
+				]
+			},
+			"coordinates" : "440,240"
 		}
 	]
 }

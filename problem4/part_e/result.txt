@@ -23,13 +23,13 @@ Weighted Avg.
   648  154 |    b = >50K
 === Evaluation result ===
 
-Scheme: combine_classifiers : Vote
-Options: -S 1 -B "weka.classifiers.trees.RandomTree -K 4 -M 1.0 -V 0.001 -S 1" -B "weka.classifiers.trees.RandomForest -P 100 -I 100 -num-slots 1 -K 0 -M 1.0 -V 0.001 -S 1" -B "weka.classifiers.trees.J48 -C 0.25 -M 2" -R AVG
+Scheme: Bagging
+Options: -P 100 -S 1 -num-slots 1 -I 10 -W weka.classifiers.trees.J48 -- -C 0.25 -M 2
 Relation: part_d_test
 
 
-Correctly Classified Instances        2487               76.3821 %
-Incorrectly Classified Instances       769               23.6179 %
+Correctly Classified Instances        2507               76.9963 %
+Incorrectly Classified Instances       749               23.0037 %
 Total Number of Instances             3256     
 
 === Detailed Accuracy By Class ===
@@ -42,5 +42,28 @@ Weighted Avg.
 === Confusion Matrix ===
 
     a    b   <-- classified as
- 2328  126 |    a = <=50K
-  643  159 |    b = >50K
+ 2342  112 |    a = <=50K
+  637  165 |    b = >50K
+=== Evaluation result ===
+
+Scheme: AdaBoostM1
+Options: -P 100 -S 1 -I 10 -W weka.classifiers.trees.J48 -- -C 0.25 -M 2
+Relation: part_d_test
+
+
+Correctly Classified Instances        2524               77.5184 %
+Incorrectly Classified Instances       732               22.4816 %
+Total Number of Instances             3256     
+
+=== Detailed Accuracy By Class ===
+
+                 Class
+                 <=50K
+                 >50K
+Weighted Avg.    
+
+=== Confusion Matrix ===
+
+    a    b   <-- classified as
+ 2317  137 |    a = <=50K
+  595  207 |    b = >50K
