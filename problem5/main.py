@@ -13,6 +13,7 @@ from core.EM import EM
 import matplotlib.pyplot as plt
 import matplotlib
 import seaborn as sns
+from sklearn.metrics import adjusted_mutual_info_score
 
 
 matplotlib.style.use('ggplot')
@@ -77,3 +78,6 @@ fig4.savefig('mean_2_variations.png')
 print('iterations : {}'.format(len(xs)))
 print('class 1 estimated mean : {}'.format(m1[-1]))
 print('class 2 estimated mean : {}'.format(m2[-1]))
+
+print('adjusted_mutual_info_score: {:.3f}'.format(
+    adjusted_mutual_info_score(data.target.values, new_data.target.values)))
